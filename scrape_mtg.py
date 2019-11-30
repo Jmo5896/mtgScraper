@@ -78,26 +78,27 @@ def scrape_magic():
             card['rarity'] = current_card\
                 .find('div', class_="product__details")\
                 .find('div', class_='product__extended-fields').text.strip().replace('.', '')
+            print(card)
             if card['edition'][current_card\
                 .find('div', class_="product__details")\
-                .find('a', class_='product__group').text.strip().replace('.', '')][today_date()] == 'navailable':
-                # print('if')
+                .find('a', class_='product__group').text.strip()][today_date()] == 'navailable':
+                print('if')
                 break
             # if trouble shooting increase this value to 2000
             elif float(card['edition'][current_card\
                 .find('div', class_="product__details")\
-                .find('a', class_='product__group').text.strip().replace('.', '')][today_date()]) < 1000:
-                # print('elif')
+                .find('a', class_='product__group').text.strip()][today_date()]) < 1000:
+                print('elif')
                 # variable in while loop that switches it so the outer loop ends
                 end_loop = True
                 break
             else:
-                # print(card)
+                print(card)
                 card_list.append(card)
         time.sleep(3)
         browser.click_link_by_text(str(counter))
     browser.quit()
-    # print(card_list)
+    print(card_list)
     return card_list
 
 
