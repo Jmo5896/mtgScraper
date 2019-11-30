@@ -63,19 +63,20 @@ def scrape():
     new_data = scrape_mtg.scrape_magic()
     
     for card1 in new_data:
-        if mongo.db.cards.find({ "card_name" : card1["card_name"]}):
-            
-                to_db = json.loads(dumps(mongo.db.cards.find({ "card_name" : card1["card_name"]})))
-                print(to_db)
-                edition = list(card1['edition'].keys())[0]
-                edition_dict = card1['edition'][edition]
-                date = list(edition_dict.keys())[0]
-                price = edition_dict[date]
-                to_db['edition'][edition][date]= price
-                mongo.db.cards.update({
-                    "_id": to_db["_id"]
-                }, to_db, upsert=True)
-                print('update')
+        if json.loads(dumps(mongo.db.cards.find({ "card_name" : card1["card_name"]}))):
+            print(json.loads(dumps(mongo.db.cards.find({ "card_name" : card1["card_name"]}))))
+            to_db = json.loads(dumps(mongo.db.cards.find({ "card_name" : card1["card_name"]})))[0]
+            del to_db['_id']
+            print(to_db)
+            edition = list(card1['edition'].keys())[0]
+            edition_dict = card1['edition'][edition]
+            date = list(edition_dict.keys())[0]
+            price = edition_dict[date]
+            to_db['edition'][edition][date]= price
+            mongo.db.cards.update({
+                "card_name": to_db["card_name"]
+            }, to_db, upsert=True)
+            print('update')
         else:#needs work!!!!
         #     #  for card2 in new_data:
         #     #     if card1['card_name'] == card2['card_name']:
