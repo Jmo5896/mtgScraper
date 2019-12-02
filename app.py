@@ -72,7 +72,10 @@ def scrape():
             edition_dict = card1['edition'][edition]
             date = list(edition_dict.keys())[0]
             price = edition_dict[date]
-            to_db['edition'][edition][date]= price
+            try:
+                to_db['edition'][edition][date]= price
+            except:
+                to_db['edition'][edition] = edition_dict
             mongo.db.cards.update({
                 "card_name": to_db["card_name"]
             }, to_db, upsert=True)

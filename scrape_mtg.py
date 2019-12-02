@@ -65,20 +65,23 @@ def scrape_magic():
                 'edition': {},
                 'rarity': ''
             } 
-            card['card_name'] = current_card\
-                .find('div', class_="product__details")\
-                .find('a', class_='product__name').text.strip().replace('.', '')
-            card['edition'][current_card\
-                .find('div', class_="product__details")\
-                .find('a', class_='product__group').text.strip().replace('.', '')] = {
-                today_date(): current_card
-                .find('div', class_="product__details")
-                .find('dd').text.strip()[1:]
-            }
-            card['rarity'] = current_card\
-                .find('div', class_="product__details")\
-                .find('div', class_='product__extended-fields').text.strip().replace('.', '')
-            print(card)
+            try:
+                card['card_name'] = current_card\
+                    .find('div', class_="product__details")\
+                    .find('a', class_='product__name').text.strip()
+                card['edition'][current_card\
+                    .find('div', class_="product__details")\
+                    .find('a', class_='product__group').text.strip()] = {
+                    today_date(): current_card
+                    .find('div', class_="product__details")
+                    .find('dd').text.strip()[1:]
+                }
+                card['rarity'] = current_card\
+                    .find('div', class_="product__details")\
+                    .find('div', class_='product__extended-fields').text.strip()
+                print(card)
+            except:
+                print("skipping product")
             if card['edition'][current_card\
                 .find('div', class_="product__details")\
                 .find('a', class_='product__group').text.strip()][today_date()] == 'navailable':
@@ -87,7 +90,7 @@ def scrape_magic():
             # if trouble shooting increase this value to 2000
             elif float(card['edition'][current_card\
                 .find('div', class_="product__details")\
-                .find('a', class_='product__group').text.strip()][today_date()]) < 1000:
+                .find('a', class_='product__group').text.strip()][today_date()]) < 10:
                 print('elif')
                 # variable in while loop that switches it so the outer loop ends
                 end_loop = True
