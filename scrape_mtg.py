@@ -98,7 +98,7 @@ def scrape_magic():
             else:
                 print(card)
                 card_list.append(card)
-        time.sleep(3)
+        time.sleep(4)
         browser.click_link_by_text(str(counter))
     browser.quit()
     print(card_list)
